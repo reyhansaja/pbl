@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+use App\Http\Controllers\LocaleController;
+
 // Public routes
+Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/discover', [CafeController::class, 'index'])->name('discover');
 Route::get('/cafe/{slug}', [CafeController::class, 'show'])->name('cafe.show');

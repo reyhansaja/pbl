@@ -9,29 +9,43 @@
 
             {{-- Desktop Nav --}}
             <div class="hidden md:flex items-center gap-8">
-                <a href="{{ route('home') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('home') ? 'text-hearth-800' : '' }}">Home</a>
-                <a href="{{ route('discover') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('discover') ? 'text-hearth-800' : '' }}">Discover</a>
+                <a href="{{ route('home') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('home') ? 'text-hearth-800' : '' }}">{{ __('Home') }}</a>
+                <a href="{{ route('discover') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('discover') ? 'text-hearth-800' : '' }}">{{ __('Discover') }}</a>
 
                 @auth
                     @if(auth()->user()->isUser())
-                        <a href="{{ route('favorites.index') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('favorites.*') ? 'text-hearth-800' : '' }}">Favorites</a>
+                        <a href="{{ route('favorites.index') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('favorites.*') ? 'text-hearth-800' : '' }}">{{ __('Favorites') }}</a>
                     @endif
 
                     @if(auth()->user()->isOwner())
-                        <a href="{{ route('owner.dashboard') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('owner.*') ? 'text-hearth-800' : '' }}">My Cafe</a>
+                        <a href="{{ route('owner.dashboard') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('owner.*') ? 'text-hearth-800' : '' }}">{{ __('My Cafe') }}</a>
                     @endif
 
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('admin.*') ? 'text-hearth-800' : '' }}">Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('admin.*') ? 'text-hearth-800' : '' }}">{{ __('Admin') }}</a>
                     @endif
                 @endauth
             </div>
 
-            {{-- Auth Buttons / User Menu --}}
+            {{-- Auth Buttons / User Menu & Lang --}}
             <div class="hidden md:flex items-center gap-4">
+                {{-- Language Switcher --}}
+                <div class="relative" x-data="{ langOpen: false }">
+                    <button @click="langOpen = !langOpen" class="flex items-center gap-1 text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors uppercase">
+                        {{ app()->getLocale() }}
+                        <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': langOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div x-show="langOpen" @click.away="langOpen = false" x-transition class="absolute right-0 mt-2 w-24 bg-white rounded-xl shadow-lg border border-hearth-100 py-2 z-50">
+                        <a href="{{ route('lang.switch', 'en') }}" class="block px-4 py-2 text-sm text-hearth-600 hover:bg-hearth-50 hover:text-hearth-800 font-medium">EN</a>
+                        <a href="{{ route('lang.switch', 'id') }}" class="block px-4 py-2 text-sm text-hearth-600 hover:bg-hearth-50 hover:text-hearth-800 font-medium">ID</a>
+                    </div>
+                </div>
+
+                <div class="w-px h-4 bg-hearth-200"></div>
+
                 @guest
-                    <a href="{{ route('login') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors">Sign In</a>
-                    <a href="{{ route('register') }}" class="btn-primary btn-sm">Join The Hearth</a>
+                    <a href="{{ route('login') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors">{{ __('Sign In') }}</a>
+                    <a href="{{ route('register') }}" class="btn-primary btn-sm">{{ __('Join The Hearth') }}</a>
                 @else
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-2 text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors">
@@ -44,11 +58,11 @@
 
                         <div x-show="open" @click.away="open = false" x-transition
                              class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-hearth-100 py-2 z-50">
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-hearth-600 hover:bg-hearth-50 hover:text-hearth-800">Profile</a>
+                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-hearth-600 hover:bg-hearth-50 hover:text-hearth-800">{{ __('Profile') }}</a>
                             <hr class="my-1 border-hearth-100">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
+                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">{{ __('Sign Out') }}</button>
                             </form>
                         </div>
                     </div>
@@ -65,30 +79,36 @@
         {{-- Mobile Menu --}}
         <div x-show="mobileOpen" x-transition class="md:hidden pb-4 border-t border-hearth-100 mt-2 pt-4">
             <div class="flex flex-col gap-3">
-                <a href="{{ route('home') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">Home</a>
-                <a href="{{ route('discover') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">Discover</a>
+                <a href="{{ route('home') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Home') }}</a>
+                <a href="{{ route('discover') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Discover') }}</a>
 
                 @auth
                     @if(auth()->user()->isUser())
-                        <a href="{{ route('favorites.index') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">Favorites</a>
+                        <a href="{{ route('favorites.index') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Favorites') }}</a>
                     @endif
                     @if(auth()->user()->isOwner())
-                        <a href="{{ route('owner.dashboard') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">My Cafe</a>
+                        <a href="{{ route('owner.dashboard') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('My Cafe') }}</a>
                     @endif
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Admin') }}</a>
                     @endif
                     <hr class="border-hearth-100">
-                    <a href="{{ route('profile.edit') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">Profile</a>
+                    <a href="{{ route('profile.edit') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Profile') }}</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800">Sign Out</button>
+                        <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800">{{ __('Sign Out') }}</button>
                     </form>
                 @else
                     <hr class="border-hearth-100">
-                    <a href="{{ route('login') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">Sign In</a>
-                    <a href="{{ route('register') }}" class="btn-primary btn-sm text-center">Join The Hearth</a>
+                    <a href="{{ route('login') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Sign In') }}</a>
+                    <a href="{{ route('register') }}" class="btn-primary btn-sm text-center">{{ __('Join The Hearth') }}</a>
                 @endauth
+                
+                <hr class="border-hearth-100">
+                <div class="flex gap-4">
+                    <a href="{{ route('lang.switch', 'en') }}" class="text-sm font-medium {{ app()->getLocale() == 'en' ? 'text-hearth-800' : 'text-hearth-400' }}">EN</a>
+                    <a href="{{ route('lang.switch', 'id') }}" class="text-sm font-medium {{ app()->getLocale() == 'id' ? 'text-hearth-800' : 'text-hearth-400' }}">ID</a>
+                </div>
             </div>
         </div>
     </div>

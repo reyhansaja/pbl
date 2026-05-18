@@ -46,7 +46,7 @@
             @endif
         @else
             <div class="bg-gradient-to-br from-hearth-200 to-hearth-300 rounded-2xl flex items-center justify-center" style="height: 400px;">
-                <p class="text-hearth-400 text-lg">No photos available</p>
+                <p class="text-hearth-400 text-lg">{{ __('No photos available') }}</p>
             </div>
         @endif
     </section>
@@ -58,9 +58,9 @@
                 <div class="flex items-center gap-3 mb-2">
                     <h1 class="font-serif text-3xl md:text-4xl font-bold text-hearth-800">{{ $cafe->name }}</h1>
                     @if($cafe->isOpenNow())
-                        <span class="badge-open">● Open</span>
+                        <span class="badge-open">● {{ __('Open') }}</span>
                     @else
-                        <span class="badge-closed">● Closed</span>
+                        <span class="badge-closed">● {{ __('Closed') }}</span>
                     @endif
                 </div>
                 @if($cafe->address)
@@ -83,7 +83,7 @@
                             </svg>
                         @endfor
                     </div>
-                    <p class="text-xs text-hearth-400">{{ $cafe->reviews_count }} reviews</p>
+                    <p class="text-xs text-hearth-400">{{ $cafe->reviews_count }} {{ __('reviews') }}</p>
                 </div>
 
                 {{-- Favorite Button --}}
@@ -108,7 +108,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {{-- About --}}
             <div class="lg:col-span-2">
-                <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">About the Space</h2>
+                <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">{{ __('About the Space') }}</h2>
                 <p class="text-hearth-600 leading-relaxed whitespace-pre-line">{{ $cafe->about }}</p>
             </div>
 
@@ -117,7 +117,7 @@
                 <div class="card p-6">
                     <h3 class="font-semibold text-hearth-800 mb-4 flex items-center gap-2">
                         <svg class="w-5 h-5 text-hearth-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        Opening Hours
+                        {{ __('Opening Hours') }}
                     </h3>
                     <div class="space-y-2">
                         @foreach($cafe->schedules->sortBy(function($s) {
@@ -141,7 +141,7 @@
     {{-- Maps --}}
     @if($cafe->maps_embed)
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">Location</h2>
+        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">{{ __('Location') }}</h2>
         <div class="rounded-2xl overflow-hidden border border-hearth-200" style="height: 350px;">
             {!! $cafe->maps_embed !!}
         </div>
@@ -150,7 +150,7 @@
 
     {{-- Reviews Section --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-hearth-100">
-        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-8">The Guest Journal</h2>
+        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-8">{{ __('The Guest Journal') }}</h2>
 
         {{-- Existing Reviews --}}
         <div class="space-y-6 mb-10">
@@ -177,10 +177,10 @@
                             {{-- Delete button (own review) --}}
                             @auth
                                 @if($review->user_id === auth()->id())
-                                    <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-3" onsubmit="return confirm('Delete this review?')">
+                                    <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-3" onsubmit="return confirm('{{ __('Delete this review?') }}')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium">Delete review</button>
+                                        <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium">{{ __('Delete review') }}</button>
                                     </form>
                                 @endif
                             @endauth
@@ -193,7 +193,7 @@
                                             <span class="text-white text-xs font-bold">{{ strtoupper(substr($review->reply->user->name, 0, 1)) }}</span>
                                         </div>
                                         <span class="text-sm font-semibold text-hearth-800">{{ $review->reply->user->name }}</span>
-                                        <span class="text-xs bg-hearth-200 text-hearth-600 px-2 py-0.5 rounded-full">Owner</span>
+                                        <span class="text-xs bg-hearth-200 text-hearth-600 px-2 py-0.5 rounded-full">{{ __('Owner') }}</span>
                                     </div>
                                     <p class="text-sm text-hearth-600">{{ $review->reply->reply }}</p>
                                 </div>
@@ -204,14 +204,14 @@
                                 @if(auth()->user()->isOwner() && $cafe->user_id === auth()->id() && !$review->reply)
                                     <div x-data="{ showReply: false }" class="mt-4">
                                         <button @click="showReply = !showReply" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">
-                                            Reply to this review
+                                            {{ __('Reply to this review') }}
                                         </button>
                                         <form x-show="showReply" x-transition method="POST" action="{{ route('owner.reviews.reply', $review) }}" class="mt-3">
                                             @csrf
-                                            <textarea name="reply" rows="3" class="input-field text-sm" placeholder="Write your reply..." required></textarea>
+                                            <textarea name="reply" rows="3" class="input-field text-sm" placeholder="{{ __('Write your reply...') }}" required></textarea>
                                             <div class="flex justify-end gap-2 mt-2">
-                                                <button type="button" @click="showReply = false" class="btn-sm text-sm text-hearth-400 hover:text-hearth-600">Cancel</button>
-                                                <button type="submit" class="btn-primary btn-sm text-sm">Post Reply</button>
+                                                <button type="button" @click="showReply = false" class="btn-sm text-sm text-hearth-400 hover:text-hearth-600">{{ __('Cancel') }}</button>
+                                                <button type="submit" class="btn-primary btn-sm text-sm">{{ __('Post Reply') }}</button>
                                             </div>
                                         </form>
                                     </div>
@@ -222,7 +222,7 @@
                 </div>
             @empty
                 <div class="text-center py-10">
-                    <p class="text-hearth-400">No reviews yet. Be the first to share your experience!</p>
+                    <p class="text-hearth-400">{{ __('No reviews yet. Be the first to share your experience!') }}</p>
                 </div>
             @endforelse
         </div>
@@ -231,13 +231,13 @@
         @auth
             @if(auth()->user()->isUser() && !$userReview)
                 <div class="card p-6">
-                    <h3 class="font-serif text-xl font-semibold text-hearth-800 mb-4">Share Your Discovery</h3>
+                    <h3 class="font-serif text-xl font-semibold text-hearth-800 mb-4">{{ __('Share Your Discovery') }}</h3>
                     <form method="POST" action="{{ route('reviews.store') }}">
                         @csrf
                         <input type="hidden" name="cafe_id" value="{{ $cafe->id }}">
 
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-hearth-600 mb-2">Your Rating</label>
+                            <label class="block text-sm font-medium text-hearth-600 mb-2">{{ __('Your Rating') }}</label>
                             <div class="star-rating" x-data="{ rating: 0 }">
                                 @for($i = 5; $i >= 1; $i--)
                                     <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" x-model="rating">
@@ -250,7 +250,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <textarea name="comment" rows="4" class="input-field" placeholder="Tell us about your experience..." required>{{ old('comment') }}</textarea>
+                            <textarea name="comment" rows="4" class="input-field" placeholder="{{ __('Tell us about your experience...') }}" required>{{ old('comment') }}</textarea>
                             @error('comment')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -258,20 +258,20 @@
 
                         <div class="flex justify-end">
                             <button type="submit" class="btn-primary">
-                                Post Journal Entry →
+                                {{ __('Post Journal Entry') }} →
                             </button>
                         </div>
                     </form>
                 </div>
             @elseif(auth()->user()->isUser() && $userReview)
                 <div class="card p-6 text-center">
-                    <p class="text-hearth-400">You've already reviewed this cafe. Thank you for your feedback! ☕</p>
+                    <p class="text-hearth-400">{{ __("You've already reviewed this cafe. Thank you for your feedback! ☕") }}</p>
                 </div>
             @endif
         @else
             <div class="card p-6 text-center">
-                <p class="text-hearth-400 mb-4">Sign in to share your experience.</p>
-                <a href="{{ route('login') }}" class="btn-primary btn-sm">Sign In</a>
+                <p class="text-hearth-400 mb-4">{{ __('Sign in to share your experience.') }}</p>
+                <a href="{{ route('login') }}" class="btn-primary btn-sm">{{ __('Sign In') }}</a>
             </div>
         @endauth
     </section>

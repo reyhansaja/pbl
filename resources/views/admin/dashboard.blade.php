@@ -5,8 +5,8 @@
 @section('content')
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
     <div class="mb-8">
-        <p class="text-hearth-500 text-sm font-semibold uppercase tracking-wider mb-2">Administration</p>
-        <h1 class="font-serif text-3xl font-bold text-hearth-800">Dashboard</h1>
+        <p class="text-hearth-500 text-sm font-semibold uppercase tracking-wider mb-2">{{ __('Administration') }}</p>
+        <h1 class="font-serif text-3xl font-bold text-hearth-800">{{ __('Dashboard') }}</h1>
     </div>
 
     {{-- Stats --}}
@@ -18,7 +18,7 @@
                 </div>
                 <div>
                     <div class="text-2xl font-bold text-hearth-800">{{ $stats['total_cafes'] }}</div>
-                    <p class="text-xs text-hearth-400">Total Cafes</p>
+                    <p class="text-xs text-hearth-400">{{ __('Total Cafes') }}</p>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <div class="text-2xl font-bold text-hearth-800">{{ $stats['total_users'] }}</div>
-                    <p class="text-xs text-hearth-400">Users</p>
+                    <p class="text-xs text-hearth-400">{{ __('Users') }}</p>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <div class="text-2xl font-bold text-hearth-800">{{ $stats['total_owners'] }}</div>
-                    <p class="text-xs text-hearth-400">Owners</p>
+                    <p class="text-xs text-hearth-400">{{ __('Owners') }}</p>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 </div>
                 <div>
                     <div class="text-2xl font-bold text-hearth-800">{{ $stats['total_reviews'] }}</div>
-                    <p class="text-xs text-hearth-400">Reviews</p>
+                    <p class="text-xs text-hearth-400">{{ __('Reviews') }}</p>
                 </div>
             </div>
         </div>
@@ -61,17 +61,17 @@
         {{-- Recent Cafes --}}
         <div>
             <div class="flex items-center justify-between mb-4">
-                <h2 class="font-serif text-xl font-semibold text-hearth-800">Recent Cafes</h2>
-                <a href="{{ route('admin.cafes') }}" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">View All →</a>
+                <h2 class="font-serif text-xl font-semibold text-hearth-800">{{ __('Recent Cafes') }}</h2>
+                <a href="{{ route('admin.cafes') }}" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">{{ __('View All →') }}</a>
             </div>
             <div class="space-y-3">
                 @foreach($recentCafes as $cafe)
                     <div class="card p-4 flex items-center justify-between">
                         <div>
                             <h3 class="font-semibold text-hearth-800">{{ $cafe->name }}</h3>
-                            <p class="text-xs text-hearth-400">by {{ $cafe->owner->name }} · {{ number_format($cafe->reviews_avg_rating ?? 0, 1) }}★ · {{ $cafe->reviews_count }} reviews</p>
+                            <p class="text-xs text-hearth-400">by {{ $cafe->owner->name }} · {{ number_format($cafe->reviews_avg_rating ?? 0, 1) }}★ · {{ $cafe->reviews_count }} {{ __('reviews') }}</p>
                         </div>
-                        <a href="{{ route('cafe.show', $cafe->slug) }}" class="text-sm text-hearth-500 hover:text-hearth-800">View</a>
+                        <a href="{{ route('cafe.show', $cafe->slug) }}" class="text-sm text-hearth-500 hover:text-hearth-800">{{ __('View') }}</a>
                     </div>
                 @endforeach
             </div>
@@ -80,8 +80,8 @@
         {{-- Recent Users --}}
         <div>
             <div class="flex items-center justify-between mb-4">
-                <h2 class="font-serif text-xl font-semibold text-hearth-800">Recent Users</h2>
-                <a href="{{ route('admin.users') }}" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">View All →</a>
+                <h2 class="font-serif text-xl font-semibold text-hearth-800">{{ __('Recent Users') }}</h2>
+                <a href="{{ route('admin.users') }}" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">{{ __('View All →') }}</a>
             </div>
             <div class="space-y-3">
                 @foreach($recentUsers as $user)

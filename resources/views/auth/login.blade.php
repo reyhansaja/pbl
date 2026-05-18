@@ -19,10 +19,10 @@
                     <a href="{{ route('home') }}" class="font-serif text-3xl font-semibold italic">The Hearth</a>
                 </div>
                 <div class="max-w-md">
-                    <h2 class="font-serif text-4xl font-bold leading-tight mb-4">Gather round the digital table for a more intentional discovery experience.</h2>
-                    <p class="text-hearth-200 mb-6">New to the hearth? <a href="{{ route('register') }}" class="text-accent font-semibold underline underline-offset-4 hover:text-white transition-colors">Join Community</a></p>
+                    <h2 class="font-serif text-4xl font-bold leading-tight mb-4">{{ __('Gather round the digital table for a more intentional discovery experience.') }}</h2>
+                    <p class="text-hearth-200 mb-6">{{ __('New to the hearth?') }} <a href="{{ route('register') }}" class="text-accent font-semibold underline underline-offset-4 hover:text-white transition-colors">{{ __('Join Community') }}</a></p>
                 </div>
-                <p class="text-hearth-300 text-sm">&copy; {{ date('Y') }} The Hearth. Hand-crafted for the digital artisan.</p>
+                <p class="text-hearth-300 text-sm">&copy; {{ date('Y') }} The Hearth. {{ __('Hand-crafted for the digital artisan.') }}</p>
             </div>
         </div>
 
@@ -35,15 +35,15 @@
                 </div>
 
                 <div class="mb-8">
-                    <h1 class="font-serif text-3xl font-bold text-hearth-800 mb-2">Welcome Back</h1>
-                    <p class="text-hearth-400">Continue your journey with the artisans.</p>
+                    <h1 class="font-serif text-3xl font-bold text-hearth-800 mb-2">{{ __('Welcome Back') }}</h1>
+                    <p class="text-hearth-400">{{ __('Continue your journey with the artisans.') }}</p>
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="space-y-5">
                     @csrf
 
                     <div>
-                        <label for="email" class="block text-xs font-semibold text-hearth-400 uppercase tracking-wider mb-2">Email Address</label>
+                        <label for="email" class="block text-xs font-semibold text-hearth-400 uppercase tracking-wider mb-2">{{ __('Email Address') }}</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
                                class="input-field" placeholder="artisan@thehearth.com">
                         @error('email')
@@ -53,9 +53,9 @@
 
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <label for="password" class="block text-xs font-semibold text-hearth-400 uppercase tracking-wider">Password</label>
+                            <label for="password" class="block text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Password') }}</label>
                             @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="text-xs font-semibold text-hearth-500 hover:text-hearth-800 transition-colors">Forgot?</a>
+                                <a href="{{ route('password.request') }}" class="text-xs font-semibold text-hearth-500 hover:text-hearth-800 transition-colors">{{ __('Forgot?') }}</a>
                             @endif
                         </div>
                         <input id="password" type="password" name="password" required autocomplete="current-password"
@@ -68,16 +68,16 @@
                     <div class="flex items-center">
                         <input id="remember_me" type="checkbox" name="remember"
                                class="w-4 h-4 bg-hearth-50 border-hearth-200 rounded text-hearth-600 focus:ring-hearth-500">
-                        <label for="remember_me" class="ml-2 text-sm text-hearth-400">Remember me</label>
+                        <label for="remember_me" class="ml-2 text-sm text-hearth-400">{{ __('Remember me') }}</label>
                     </div>
 
                     <button type="submit" class="btn-primary w-full text-center">
-                        Sign In
+                        {{ __('Sign In') }}
                     </button>
                 </form>
 
                 <p class="text-center text-sm text-hearth-400 mt-6">
-                    New to the hearth? <a href="{{ route('register') }}" class="font-semibold text-hearth-600 hover:text-hearth-800 transition-colors">Join Community</a>
+                    {{ __('New to the hearth?') }} <a href="{{ route('register') }}" class="font-semibold text-hearth-600 hover:text-hearth-800 transition-colors">{{ __('Join Community') }}</a>
                 </p>
             </div>
         </div>

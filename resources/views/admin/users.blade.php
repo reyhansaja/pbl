@@ -8,9 +8,9 @@
         <div>
             <a href="{{ route('admin.dashboard') }}" class="text-hearth-500 hover:text-hearth-800 text-sm font-medium inline-flex items-center gap-1 mb-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                Dashboard
+                {{ __('Dashboard') }}
             </a>
-            <h1 class="font-serif text-3xl font-bold text-hearth-800">Manage Users</h1>
+            <h1 class="font-serif text-3xl font-bold text-hearth-800">{{ __('Manage Users') }}</h1>
         </div>
     </div>
 
@@ -19,13 +19,13 @@
             <table class="w-full">
                 <thead class="bg-hearth-50 border-b border-hearth-100">
                     <tr>
-                        <th class="text-left py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">User</th>
-                        <th class="text-left py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">Email</th>
-                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">Role</th>
-                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">Reviews</th>
-                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">Favorites</th>
-                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">Joined</th>
-                        <th class="text-right py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">Actions</th>
+                        <th class="text-left py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('User') }}</th>
+                        <th class="text-left py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Email') }}</th>
+                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Role') }}</th>
+                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Reviews') }}</th>
+                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Favorites') }}</th>
+                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Joined') }}</th>
+                        <th class="text-right py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-hearth-100">
@@ -50,13 +50,13 @@
                             <td class="py-3 px-4 text-center text-sm text-hearth-400">{{ $user->created_at->format('M d, Y') }}</td>
                             <td class="py-3 px-4 text-right">
                                 @if(!$user->isAdmin())
-                                    <form method="POST" action="{{ route('admin.users.delete', $user) }}" onsubmit="return confirm('Delete this user? This will also delete their cafe and reviews.')">
+                                    <form method="POST" action="{{ route('admin.users.delete', $user) }}" onsubmit="return confirm('{{ __('Delete this user? This will also delete their cafe and reviews.') }}')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-sm text-red-500 hover:text-red-700 font-medium">Delete</button>
+                                        <button type="submit" class="text-sm text-red-500 hover:text-red-700 font-medium">{{ __('Delete') }}</button>
                                     </form>
                                 @else
-                                    <span class="text-xs text-hearth-300">Protected</span>
+                                    <span class="text-xs text-hearth-300">{{ __('Protected') }}</span>
                                 @endif
                             </td>
                         </tr>

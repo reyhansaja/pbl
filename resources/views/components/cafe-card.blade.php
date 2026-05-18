@@ -17,9 +17,9 @@
 
             {{-- Status Badge --}}
             @if($cafe->isOpenNow())
-                <span class="absolute top-3 left-3 badge-open">● Open Now</span>
+                <span class="absolute top-3 left-3 badge-open">● {{ __('Open Now') }}</span>
             @else
-                <span class="absolute top-3 left-3 badge-closed">● Closed</span>
+                <span class="absolute top-3 left-3 badge-closed">● {{ __('Closed') }}</span>
             @endif
         </div>
 
@@ -50,7 +50,7 @@
                     </div>
                     <span class="text-sm font-semibold text-hearth-800 ml-1">{{ $avgRating ?: '-' }}</span>
                 </div>
-                <span class="text-xs text-hearth-400">{{ $cafe->reviews_count ?? 0 }} reviews</span>
+                <span class="text-xs text-hearth-400">{{ $cafe->reviews_count ?? 0 }} {{ __('reviews') }}</span>
             </div>
         </div>
     </a>
