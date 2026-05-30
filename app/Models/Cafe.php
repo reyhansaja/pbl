@@ -20,6 +20,8 @@ class Cafe extends Model
         'about',
         'address',
         'maps_embed',
+        'latitude',
+        'longitude',
     ];
 
     protected static function boot()
@@ -33,7 +35,55 @@ class Cafe extends Model
             while (static::where('slug', $cafe->slug)->exists()) {
                 $cafe->slug = $original . '-' . $count++;
             }
+
+            // Auto parse coordinates from maps_embed if not explicitly provided
+            if (!$cafe->latitude || !$cafe->longitude) {
+                if ($cafe->maps_embed) {
+                    if (preg_match('/!3d(-?[0-9.]+)/', $cafe->maps_embed, $matches)) {
+                        $cafe->latitude = (float) $matches[1];
+                    }
+                    if (preg_match('/!2d([0-9.]+)/', $cafe->maps_embed, $matches)) {
+                        $cafe->longitude = (float) $matches[1];
+                    }
+                }
+            }
         });
+
+        static::updating(function ($cafe) {
+            // Auto parse coordinates if maps_embed is updated
+            if ($cafe->isDirty('maps_embed') && $cafe->maps_embed) {
+                if (preg_match('/!3d(-?[0-9.]+)/', $cafe->maps_embed, $matches)) {
+                    $cafe->latitude = (float) $matches[1];
+                }
+                if (preg_match('/!2d([0-9.]+)/', $cafe->maps_embed, $matches)) {
+                    $cafe->longitude = (float) $matches[1];
+                }
+            }
+        });
+    }
+
+    public function getLatitudeAttribute($value)
+    {
+        if ($value !== null) {
+            return (float) $value;
+        }
+        // Fallback: parse from maps_embed if possible
+        if ($this->maps_embed && preg_match('/!3d(-?[0-9.]+)/', $this->maps_embed, $matches)) {
+            return (float) $matches[1];
+        }
+        return null;
+    }
+
+    public function getLongitudeAttribute($value)
+    {
+        if ($value !== null) {
+            return (float) $value;
+        }
+        // Fallback: parse from maps_embed if possible
+        if ($this->maps_embed && preg_match('/!2d([0-9.]+)/', $this->maps_embed, $matches)) {
+            return (float) $matches[1];
+        }
+        return null;
     }
 
     public function owner()

@@ -22,6 +22,9 @@ use App\Http\Controllers\LocaleController;
 Route::get('/lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/discover', [CafeController::class, 'index'])->name('discover');
+Route::get('/nearby', function () {
+    return redirect()->route('discover', ['sort' => 'nearby']);
+})->name('cafes.nearby');
 Route::get('/cafe/{slug}', [CafeController::class, 'show'])->name('cafe.show');
 
 // Authenticated user routes

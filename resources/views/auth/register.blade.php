@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Register - The Hearth</title>
+    <title>Register - CoffeSpot</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-hearth-50" x-data="{ role: 'user' }">
@@ -16,7 +16,7 @@
                  class="absolute inset-0 w-full h-full object-cover">
             <div class="relative z-20 flex flex-col justify-between p-12 text-white">
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('home') }}" class="font-serif text-3xl font-semibold italic">The Hearth</a>
+                    <a href="{{ route('home') }}" class="font-serif text-3xl font-semibold italic">CoffeSpot</a>
                     <a href="{{ route('login') }}" class="text-sm font-semibold text-hearth-200 hover:text-white border border-hearth-400 px-4 py-2 rounded-lg transition-colors">{{ __('Sign In') }}</a>
                 </div>
                 <div class="max-w-md">
@@ -24,7 +24,7 @@
                     <h2 class="font-serif text-4xl font-bold leading-tight mb-4">"Pull up a chair. Stay as long as you like."</h2>
                     <p class="text-hearth-200 leading-relaxed">{{ __('Join our digital corner of the world where discovery is personal and every corner has a story.') }}</p>
                 </div>
-                <p class="text-hearth-300 text-sm">&copy; {{ date('Y') }} The Hearth. {{ __('Hand-crafted for the digital artisan.') }}</p>
+                <p class="text-hearth-300 text-sm">&copy; {{ date('Y') }} CoffeSpot. {{ __('Hand-crafted for the digital artisan.') }}</p>
             </div>
         </div>
 
@@ -33,7 +33,7 @@
             <div class="w-full max-w-md">
                 {{-- Mobile Header --}}
                 <div class="lg:hidden flex items-center justify-between mb-8">
-                    <a href="{{ route('home') }}" class="font-serif text-2xl font-semibold text-hearth-800 italic">The Hearth</a>
+                    <a href="{{ route('home') }}" class="font-serif text-2xl font-semibold text-hearth-800 italic">CoffeSpot</a>
                     <a href="{{ route('login') }}" class="text-sm font-semibold text-hearth-600 hover:text-hearth-800">{{ __('Sign In') }}</a>
                 </div>
 
@@ -100,7 +100,7 @@
                     </div>
 
                     <button type="submit" class="btn-primary w-full text-center">
-                        {{ __('Join The Hearth') }} →
+                        {{ __('Join CoffeSpot') }} →
                     </button>
                 </form>
 

@@ -139,12 +139,16 @@
     </section>
 
     {{-- Maps --}}
-    @if($cafe->maps_embed)
+    @if(($cafe->latitude && $cafe->longitude) || $cafe->maps_embed)
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">{{ __('Location') }}</h2>
-        <div class="rounded-2xl overflow-hidden border border-hearth-200" style="height: 350px;">
-            {!! $cafe->maps_embed !!}
-        </div>
+        @if($cafe->latitude && $cafe->longitude)
+            <div id="cafe-detail-map" class="rounded-2xl overflow-hidden border border-hearth-200 shadow-sm" style="height: 350px;"></div>
+        @else
+            <div class="rounded-2xl overflow-hidden border border-hearth-200" style="height: 350px;">
+                {!! $cafe->maps_embed !!}
+            </div>
+        @endif
     </section>
     @endif
 
@@ -277,3 +281,105 @@
     </section>
 </div>
 @endsection
+
+@if($cafe->latitude && $cafe->longitude)
+@push('scripts')
+{{-- Include Leaflet CSS and JS --}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const lat = {{ $cafe->latitude }};
+        const lng = {{ $cafe->longitude }};
+        const name = "{{ $cafe->name }}";
+        const address = "{{ $cafe->address }}";
+
+        // Initialize Map
+        const map = L.map('cafe-detail-map', {
+            zoomControl: false
+        }).setView([lat, lng], 15);
+
+        // Add standard OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Move zoom control to bottom right for premium appearance
+        L.control.zoom({
+            position: 'bottomright'
+        }).addTo(map);
+
+        // Create Custom SVG Coffee Pin
+        const customCoffeeIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `
+                <div class="relative flex items-center justify-center shadow-lg rounded-full overflow-hidden bg-white border border-hearth-200" style="width: 42px; height: 42px;">
+                    <svg class="w-[60%] h-[60%]" viewBox="0 0 24 24" fill="none" stroke="#B85C38" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                        <line x1="6" y1="2" x2="6" y2="4"/>
+                        <line x1="10" y1="2" x2="10" y2="4"/>
+                        <line x1="14" y1="2" x2="14" y2="4"/>
+                    </svg>
+                </div>
+                <div class="absolute bottom-[-6px] left-[50%] translate-x-[-50%] w-3 h-3 bg-white rotate-45 border-r border-b border-hearth-200 shadow-md z-[-1]"></div>
+            `,
+            iconSize: [42, 42],
+            iconAnchor: [21, 48],
+            popupAnchor: [0, -42]
+        });
+
+        // Add marker
+        const marker = L.marker([lat, lng], {
+            icon: customCoffeeIcon
+        }).addTo(map);
+
+        // Bind beautiful popup
+        marker.bindPopup(`
+            <div class="p-2 font-sans text-center">
+                <h4 class="font-serif font-bold text-hearth-800 text-sm mb-1">${name}</h4>
+                <p class="text-xs text-hearth-500 mb-2">${address}</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-bold text-hearth-800 hover:text-hearth-500 transition-colors uppercase tracking-wider">
+                    Open in Google Maps &rarr;
+                </a>
+            </div>
+        `).openPopup();
+    });
+</script>
+
+<style>
+    /* Styling to blend Leaflet perfectly with Hearth styles */
+    .leaflet-container {
+        font-family: 'Inter', sans-serif !important;
+        background: #FAF6F1 !important;
+    }
+    
+    .leaflet-popup-content-wrapper {
+        border-radius: 1rem !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02) !important;
+        border: 1px solid #FAF6F1 !important;
+        padding: 0.15rem !important;
+        background: #FAF6F1 !important;
+    }
+    
+    .leaflet-popup-tip {
+        background: #FAF6F1 !important;
+        box-shadow: none !important;
+    }
+    
+    .leaflet-bar {
+        border: none !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+        border-radius: 0.5rem !important;
+        overflow: hidden;
+    }
+    
+    .leaflet-bar a {
+        background-color: #ffffff !important;
+        color: #2C1810 !important;
+        border-bottom: 1px solid #FAF6F1 !important;
+    }
+</style>
+@endpush
+@endif

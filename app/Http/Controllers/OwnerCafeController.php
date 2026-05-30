@@ -49,6 +49,8 @@ class OwnerCafeController extends Controller
             'name' => 'required|string|max:255',
             'about' => 'required|string',
             'address' => 'required|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             'maps_embed' => 'nullable|string',
             'photos' => 'required|array|min:1',
             'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -61,6 +63,8 @@ class OwnerCafeController extends Controller
             'name' => $request->name,
             'about' => $request->about,
             'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'maps_embed' => $request->maps_embed,
         ]);
 
@@ -118,6 +122,8 @@ class OwnerCafeController extends Controller
             'name' => 'required|string|max:255',
             'about' => 'required|string',
             'address' => 'required|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             'maps_embed' => 'nullable|string',
             'new_photos.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'schedule' => 'required|array',
@@ -128,6 +134,8 @@ class OwnerCafeController extends Controller
             'slug' => Str::slug($request->name),
             'about' => $request->about,
             'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'maps_embed' => $request->maps_embed,
         ]);
 

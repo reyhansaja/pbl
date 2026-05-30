@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="@yield('meta_description', 'The Hearth - Discover the finest cafes, handcrafted for the digital artisan.')">
+    <meta name="description" content="@yield('meta_description', 'CoffeSpot - Discover the finest cafes, handcrafted for the digital artisan.')">
 
-    <title>@yield('title', 'The Hearth') - Cafe Discovery</title>
+    <title>@yield('title', 'CoffeSpot') - Cafe Discovery</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

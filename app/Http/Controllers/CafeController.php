@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cafe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CafeController extends Controller
 {
@@ -32,6 +33,18 @@ class CafeController extends Controller
                     break;
                 case 'latest':
                     $query->latest();
+                    break;
+                case 'nearby':
+                    if ($request->filled('latitude') && $request->filled('longitude')) {
+                        $lat = (float) $request->latitude;
+                        $lng = (float) $request->longitude;
+
+                        // Haversine formula to calculate distance in kilometers (6371 is the radius of the Earth in km)
+                        $query->selectRaw("cafes.*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$lat, $lng, $lat])
+                              ->orderBy('distance');
+                    } else {
+                        $query->orderByDesc('reviews_avg_rating');
+                    }
                     break;
                 default:
                     $query->orderByDesc('reviews_avg_rating');
@@ -70,4 +83,6 @@ class CafeController extends Controller
 
         return view('cafe.show', compact('cafe', 'isFavorited', 'userReview'));
     }
+
+
 }

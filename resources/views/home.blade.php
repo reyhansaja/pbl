@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'The Hearth')
+@section('title', 'CoffeSpot')
 @section('meta_description', 'Discover the finest cafes, handcrafted for the digital artisan. Your journey starts here.')
 
 @section('content')
@@ -12,7 +12,7 @@
     </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
         <div class="max-w-2xl">
-            <p class="text-accent text-sm font-semibold uppercase tracking-widest mb-4 fade-in">{{ __('Welcome to The Hearth') }}</p>
+            <p class="text-accent text-sm font-semibold uppercase tracking-widest mb-4 fade-in">{{ __('Welcome to CoffeSpot') }}</p>
             <h1 class="font-serif text-4xl md:text-6xl font-bold leading-tight mb-6 fade-in">
                 {!! __('Discover Cafes, <br> <span class="text-accent">Handcrafted</span> for You') !!}
             </h1>
@@ -84,7 +84,7 @@
         <div class="relative px-8 py-16 md:px-16 md:py-20 text-center">
             <h2 class="font-serif text-3xl md:text-4xl font-bold text-white mb-4">{{ __('Own a Cafe?') }}</h2>
             <p class="text-hearth-200 text-lg mb-8 max-w-lg mx-auto">
-                {{ __('Join The Hearth community and showcase your cafe to thousands of coffee enthusiasts.') }}
+                {{ __('Join CoffeSpot community and showcase your cafe to thousands of coffee enthusiasts.') }}
             </p>
             <a href="{{ route('register') }}" class="btn-primary bg-accent text-hearth-800 hover:bg-yellow-400 font-semibold px-8">
                 {{ __('Register Your Cafe') }}

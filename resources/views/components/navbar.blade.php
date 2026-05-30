@@ -4,13 +4,14 @@
         <div class="flex items-center justify-between h-16">
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2">
-                <span class="font-serif text-xl font-semibold text-hearth-800 italic">The Hearth</span>
+                <span class="font-serif text-xl font-semibold text-hearth-800 italic">CoffeSpot</span>
             </a>
 
             {{-- Desktop Nav --}}
             <div class="hidden md:flex items-center gap-8">
                 <a href="{{ route('home') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('home') ? 'text-hearth-800' : '' }}">{{ __('Home') }}</a>
                 <a href="{{ route('discover') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('discover') ? 'text-hearth-800' : '' }}">{{ __('Discover') }}</a>
+                <a href="{{ route('cafes.nearby') }}" class="text-sm font-medium text-hearth-400 hover:text-hearth-800 transition-colors {{ request()->routeIs('cafes.nearby') ? 'text-hearth-800' : '' }}">{{ __('Nearby') }}</a>
 
                 @auth
                     @if(auth()->user()->isUser())
@@ -45,7 +46,7 @@
 
                 @guest
                     <a href="{{ route('login') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors">{{ __('Sign In') }}</a>
-                    <a href="{{ route('register') }}" class="btn-primary btn-sm">{{ __('Join The Hearth') }}</a>
+                    <a href="{{ route('register') }}" class="btn-primary btn-sm">{{ __('Join CoffeSpot') }}</a>
                 @else
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-2 text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors">
@@ -81,6 +82,7 @@
             <div class="flex flex-col gap-3">
                 <a href="{{ route('home') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Home') }}</a>
                 <a href="{{ route('discover') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Discover') }}</a>
+                <a href="{{ route('cafes.nearby') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800 {{ request()->routeIs('cafes.nearby') ? 'text-hearth-800 font-semibold' : '' }}">{{ __('Nearby') }}</a>
 
                 @auth
                     @if(auth()->user()->isUser())
@@ -101,7 +103,7 @@
                 @else
                     <hr class="border-hearth-100">
                     <a href="{{ route('login') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Sign In') }}</a>
-                    <a href="{{ route('register') }}" class="btn-primary btn-sm text-center">{{ __('Join The Hearth') }}</a>
+                    <a href="{{ route('register') }}" class="btn-primary btn-sm text-center">{{ __('Join CoffeSpot') }}</a>
                 @endauth
                 
                 <hr class="border-hearth-100">

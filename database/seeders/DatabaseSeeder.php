@@ -81,6 +81,8 @@ class DatabaseSeeder extends Seeder
             'about' => 'The Gilded Bean is more than just a coffee shop. It\'s a cultural melting pot nestled in the heart of the Creative District, supplying the finest single-origin beans alongside artisanal pastries and light meals. Our space is designed to be a sanctuary for the curious mind, a place for the heart and Soul of Exploration. Step inside and discover a world of carefully curated flavors, from exotic pour-overs to decadent espresso-based creations.',
             'address' => 'Jl. Braga No. 58, Bandung, Jawa Barat',
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.60881!3d-6.917464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMDIuOSJTIDEwN8KwMzYnMzEuNyJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+            'latitude' => -6.917464,
+            'longitude' => 107.608810,
         ]);
 
         $cafe2 = Cafe::create([
@@ -90,6 +92,8 @@ class DatabaseSeeder extends Seeder
             'about' => 'Kopi Nusantara merupakan cafe yang mengusung konsep tradisional Indonesia modern. Kami menyajikan kopi-kopi terbaik dari seluruh penjuru nusantara, dari Aceh Gayo hingga Toraja. Suasana yang hangat dengan sentuhan budaya Indonesia akan membuat Anda betah berlama-lama. Nikmati juga aneka kudapan tradisional yang telah kami modernisasi untuk selera masa kini.',
             'address' => 'Jl. Dago No. 123, Bandung, Jawa Barat',
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.61881!3d-6.885464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTMnMDcuNyJTIDEwN8KwMzcnMDcuNyJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+            'latitude' => -6.885464,
+            'longitude' => 107.618810,
         ]);
 
         $cafe3 = Cafe::create([
@@ -99,6 +103,8 @@ class DatabaseSeeder extends Seeder
             'about' => 'Brew & Beyond is a specialty coffee experience that takes you on a journey through the world of third-wave coffee. Our baristas are trained experts who craft each cup with precision and passion. We source our beans directly from farms on three continents, ensuring that every sip tells a story. The minimalist Scandinavian interior creates the perfect backdrop for focused work or intimate conversations.',
             'address' => 'Jl. Riau No. 45, Bandung, Jawa Barat',
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.62881!3d-6.908464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnMzAuNSJTIDEwN8KwMzcnNDMuNyJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+            'latitude' => -6.908464,
+            'longitude' => 107.628810,
         ]);
 
         $cafe4 = Cafe::create([
@@ -108,6 +114,8 @@ class DatabaseSeeder extends Seeder
             'about' => 'Rumah Kopi Heritage adalah tempat di mana tradisi bertemu inovasi. Terletak di bangunan heritage yang telah direstorasi dengan penuh cinta, cafe kami menawarkan pengalaman ngopi yang tak terlupakan. Menu kami memadukan resep kopi turun-temurun dengan teknik brewing modern. Setiap sudut ruangan menceritakan kisah sejarah kopi Indonesia yang kaya.',
             'address' => 'Jl. Asia Afrika No. 89, Bandung, Jawa Barat',
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.60581!3d-6.921464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMTcuMyJTIDEwN8KwMzYnMjAuOSJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+            'latitude' => -6.921464,
+            'longitude' => 107.605810,
         ]);
 
         // ==================== CAFE PHOTOS ====================
