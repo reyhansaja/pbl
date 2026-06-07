@@ -70,3 +70,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 require __DIR__.'/auth.php';
+
+use App\Http\Controllers\Auth\PasswordOtpController;
+
+Route::get('password/otp', [PasswordOtpController::class, 'showRequestForm'])->name('password.otp.request');
+Route::post('password/otp', [PasswordOtpController::class, 'sendOtp'])->name('password.otp.send');
+Route::get('password/otp/verify', [PasswordOtpController::class, 'showVerifyForm'])->name('password.otp.verify');
+Route::post('password/otp/verify', [PasswordOtpController::class, 'verifyOtp'])->name('password.otp.check');
+Route::get('password/otp/reset', [PasswordOtpController::class, 'showResetForm'])->name('password.otp.reset');
+Route::post('password/otp/reset', [PasswordOtpController::class, 'resetPassword'])->name('password.otp.update');

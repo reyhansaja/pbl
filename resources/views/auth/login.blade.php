@@ -54,8 +54,8 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label for="password" class="block text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Password') }}</label>
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="text-xs font-semibold text-hearth-500 hover:text-hearth-800 transition-colors">{{ __('Forgot?') }}</a>
+                            @if (Route::has('password.otp.request'))
+                                <a href="{{ route('password.otp.request') }}" class="text-xs font-semibold text-hearth-500 hover:text-hearth-800 transition-colors">{{ __('Forgot?') }}</a>
                             @endif
                         </div>
                         <input id="password" type="password" name="password" required autocomplete="current-password"
