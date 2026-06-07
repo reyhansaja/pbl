@@ -16,6 +16,26 @@
         </div>
     </div>
 
+    @if(!$cafe->is_approved)
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8 rounded-r-xl shadow-sm">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-amber-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-semibold text-amber-800">
+                        {{ __('Pending Approval') }}
+                    </h3>
+                    <p class="text-xs text-amber-700 mt-1">
+                        {{ __('Your cafe registry is currently pending review by our administrator. It will become visible on the public listings once approved.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    @endif
+
     {{-- Stats --}}
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
         <div class="card p-5 text-center">
@@ -62,6 +82,43 @@
                                     </div>
                                 </div>
                                 <p class="text-sm text-hearth-600 mb-3">{{ $review->comment }}</p>
+
+                                @if($review->images && count($review->images) > 0)
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        @foreach($review->images as $image)
+                                            <div x-data="{ open: false }" class="relative flex-shrink-0">
+                                                <div class="w-10 h-10 rounded-lg overflow-hidden border border-hearth-200 bg-hearth-50 hover:opacity-90 transition-opacity cursor-pointer shadow-sm">
+                                                    <img src="{{ asset('storage/' . $image) }}" 
+                                                         alt="Review attachment" 
+                                                         class="w-full h-full object-cover"
+                                                         @click="open = true">
+                                                </div>
+
+                                                <div x-show="open" 
+                                                     x-transition:enter="transition ease-out duration-300"
+                                                     x-transition:enter-start="opacity-0"
+                                                     x-transition:enter-end="opacity-100"
+                                                     x-transition:leave="transition ease-in duration-200"
+                                                     x-transition:leave-start="opacity-100"
+                                                     x-transition:leave-end="opacity-0"
+                                                     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
+                                                     @click.self="open = false"
+                                                     @keydown.escape.window="open = false"
+                                                     style="display: none;">
+                                                    <div class="relative max-w-4xl max-h-full">
+                                                        <img src="{{ asset('storage/' . $image) }}" 
+                                                             alt="Review attachment large" 
+                                                             class="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl">
+                                                        <button type="button" @click="open = false" 
+                                                                class="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 p-2 rounded-full transition-colors">
+                                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
 
                                 @if($review->reply)
                                     <div class="bg-hearth-50 rounded-lg p-3 border-l-4 border-hearth-500">

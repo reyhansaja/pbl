@@ -50,8 +50,12 @@
                 @else
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-2 text-sm font-medium text-hearth-600 hover:text-hearth-800 transition-colors">
-                            <div class="w-8 h-8 bg-hearth-200 rounded-full flex items-center justify-center">
-                                <span class="text-hearth-600 text-xs font-bold">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                            <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-hearth-200 flex-shrink-0">
+                                @if(auth()->user()->avatar)
+                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <span class="text-hearth-600 text-xs font-bold">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                                @endif
                             </div>
                             <span>{{ auth()->user()->name }}</span>
                             <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -95,10 +99,22 @@
                         <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Admin') }}</a>
                     @endif
                     <hr class="border-hearth-100">
-                    <a href="{{ route('profile.edit') }}" class="text-sm font-medium text-hearth-600 hover:text-hearth-800">{{ __('Profile') }}</a>
+                    <div class="flex items-center gap-3 py-1">
+                        <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-hearth-200 flex-shrink-0">
+                            @if(auth()->user()->avatar)
+                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-hearth-600 text-sm font-bold">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                            @endif
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold text-hearth-800 leading-none mb-1">{{ auth()->user()->name }}</div>
+                            <a href="{{ route('profile.edit') }}" class="text-xs font-medium text-hearth-400 hover:text-hearth-600">{{ __('Edit Profile') }}</a>
+                        </div>
+                    </div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800">{{ __('Sign Out') }}</button>
+                        <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800 mt-2">{{ __('Sign Out') }}</button>
                     </form>
                 @else
                     <hr class="border-hearth-100">

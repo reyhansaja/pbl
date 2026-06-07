@@ -80,9 +80,10 @@ class DatabaseSeeder extends Seeder
             'slug' => 'the-gilded-bean',
             'about' => 'The Gilded Bean is more than just a coffee shop. It\'s a cultural melting pot nestled in the heart of the Creative District, supplying the finest single-origin beans alongside artisanal pastries and light meals. Our space is designed to be a sanctuary for the curious mind, a place for the heart and Soul of Exploration. Step inside and discover a world of carefully curated flavors, from exotic pour-overs to decadent espresso-based creations.',
             'address' => 'Jl. Braga No. 58, Bandung, Jawa Barat',
-            'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.60881!3d-6.917464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMDIuOSJTIDEwN8KwMzYnMzEuNyJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
+            'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.60881!3d-6.917464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMDIuOSJTIDEwN8KwMzYnMjAuOSJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
             'latitude' => -6.917464,
             'longitude' => 107.608810,
+            'is_approved' => true,
         ]);
 
         $cafe2 = Cafe::create([
@@ -94,6 +95,7 @@ class DatabaseSeeder extends Seeder
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.61881!3d-6.885464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTMnMDcuNyJTIDEwN8KwMzcnMDcuNyJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
             'latitude' => -6.885464,
             'longitude' => 107.618810,
+            'is_approved' => true,
         ]);
 
         $cafe3 = Cafe::create([
@@ -105,6 +107,7 @@ class DatabaseSeeder extends Seeder
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.62881!3d-6.908464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnMzAuNSJTIDEwN8KwMzcnNDMuNyJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
             'latitude' => -6.908464,
             'longitude' => 107.628810,
+            'is_approved' => true,
         ]);
 
         $cafe4 = Cafe::create([
@@ -116,6 +119,7 @@ class DatabaseSeeder extends Seeder
             'maps_embed' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467107128!2d107.60581!3d-6.921464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMTcuMyJTIDEwN8KwMzYnMjAuOSJF!5e0!3m2!1sid!2sid!4v1234567890" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>',
             'latitude' => -6.921464,
             'longitude' => 107.605810,
+            'is_approved' => true,
         ]);
 
         // ==================== CAFE PHOTOS ====================

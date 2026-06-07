@@ -106,10 +106,39 @@
     {{-- About & Schedule --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {{-- About --}}
+            {{-- About & Maps --}}
             <div class="lg:col-span-2">
-                <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">{{ __('About the Space') }}</h2>
-                <p class="text-hearth-600 leading-relaxed whitespace-pre-line">{{ $cafe->about }}</p>
+                <div x-data="{ expanded: false }">
+                    <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">{{ __('About the Space') }}</h2>
+                    @if(Str::words($cafe->about, 60, '') !== $cafe->about)
+                        <p class="text-hearth-600 leading-relaxed whitespace-pre-line animate-fade-in" x-show="!expanded">
+                            {{ Str::words($cafe->about, 60, '...') }}
+                        </p>
+                        <p class="text-hearth-600 leading-relaxed whitespace-pre-line animate-fade-in" x-show="expanded" style="display: none;">
+                            {{ $cafe->about }}
+                        </p>
+                        <button @click="expanded = !expanded" class="text-sm font-semibold text-hearth-800 hover:text-hearth-500 mt-2 transition-colors focus:outline-none">
+                            <span x-show="!expanded">{{ __('Read More') }} &darr;</span>
+                            <span x-show="expanded" style="display: none;">{{ __('Read Less') }} &uarr;</span>
+                        </button>
+                    @else
+                        <p class="text-hearth-600 leading-relaxed whitespace-pre-line">{{ $cafe->about }}</p>
+                    @endif
+                </div>
+
+                {{-- Maps --}}
+                @if(($cafe->latitude && $cafe->longitude) || $cafe->maps_embed)
+                    <div class="mt-8">
+                        <h3 class="font-serif text-xl font-bold text-hearth-800 mb-4">{{ __('Location') }}</h3>
+                        @if($cafe->latitude && $cafe->longitude)
+                            <div id="cafe-detail-map" class="rounded-2xl overflow-hidden border border-hearth-200 shadow-sm" style="height: 260px;"></div>
+                        @else
+                            <div class="rounded-2xl overflow-hidden border border-hearth-200" style="height: 260px;">
+                                {!! $cafe->maps_embed !!}
+                            </div>
+                        @endif
+                    </div>
+                @endif
             </div>
 
             {{-- Schedule --}}
@@ -138,20 +167,6 @@
         </div>
     </section>
 
-    {{-- Maps --}}
-    @if(($cafe->latitude && $cafe->longitude) || $cafe->maps_embed)
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-4">{{ __('Location') }}</h2>
-        @if($cafe->latitude && $cafe->longitude)
-            <div id="cafe-detail-map" class="rounded-2xl overflow-hidden border border-hearth-200 shadow-sm" style="height: 350px;"></div>
-        @else
-            <div class="rounded-2xl overflow-hidden border border-hearth-200" style="height: 350px;">
-                {!! $cafe->maps_embed !!}
-            </div>
-        @endif
-    </section>
-    @endif
-
     {{-- Reviews Section --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-hearth-100">
         <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-8">{{ __('The Guest Journal') }}</h2>
@@ -178,9 +193,46 @@
                             </div>
                             <p class="text-hearth-600 leading-relaxed">{{ $review->comment }}</p>
 
+                            @if($review->images && count($review->images) > 0)
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    @foreach($review->images as $image)
+                                        <div x-data="{ open: false }" class="relative flex-shrink-0">
+                                            <div class="w-10 h-10 rounded-lg overflow-hidden border border-hearth-200 bg-hearth-50 hover:opacity-90 transition-opacity cursor-pointer shadow-sm">
+                                                <img src="{{ asset('storage/' . $image) }}" 
+                                                     alt="Review attachment" 
+                                                     class="w-full h-full object-cover"
+                                                     @click="open = true">
+                                            </div>
+
+                                            <div x-show="open" 
+                                                 x-transition:enter="transition ease-out duration-300"
+                                                 x-transition:enter-start="opacity-0"
+                                                 x-transition:enter-end="opacity-100"
+                                                 x-transition:leave="transition ease-in duration-200"
+                                                 x-transition:leave-start="opacity-100"
+                                                 x-transition:leave-end="opacity-0"
+                                                 class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
+                                                 @click.self="open = false"
+                                                 @keydown.escape.window="open = false"
+                                                 style="display: none;">
+                                                <div class="relative max-w-4xl max-h-full">
+                                                    <img src="{{ asset('storage/' . $image) }}" 
+                                                         alt="Review attachment large" 
+                                                         class="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl">
+                                                    <button type="button" @click="open = false" 
+                                                            class="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 p-2 rounded-full transition-colors">
+                                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
                             {{-- Delete button (own review) --}}
                             @auth
-                                @if($review->user_id === auth()->id())
+                                @if($review->user_id === auth()->id() || auth()->user()->isAdmin())
                                     <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-3" onsubmit="return confirm('{{ __('Delete this review?') }}')">
                                         @csrf
                                         @method('DELETE')
@@ -236,7 +288,7 @@
             @if(auth()->user()->isUser() && !$userReview)
                 <div class="card p-6">
                     <h3 class="font-serif text-xl font-semibold text-hearth-800 mb-4">{{ __('Share Your Discovery') }}</h3>
-                    <form method="POST" action="{{ route('reviews.store') }}">
+                    <form method="POST" action="{{ route('reviews.store') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="cafe_id" value="{{ $cafe->id }}">
 
@@ -256,6 +308,44 @@
                         <div class="mb-4">
                             <textarea name="comment" rows="4" class="input-field" placeholder="{{ __('Tell us about your experience...') }}" required>{{ old('comment') }}</textarea>
                             @error('comment')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-5" x-data="{ 
+                            previews: [], 
+                            handleFiles(event) {
+                                this.previews = [];
+                                const files = event.target.files;
+                                if (files) {
+                                    for (let i = 0; i < Math.min(files.length, 5); i++) {
+                                        this.previews.push(URL.createObjectURL(files[i]));
+                                    }
+                                }
+                            }
+                        }">
+                            <label class="block text-sm font-medium text-hearth-600 mb-2">{{ __('Attach Photos (Optional, max 5)') }}</label>
+                            <div class="flex items-center gap-3">
+                                <label class="flex items-center gap-2 px-4 py-2 bg-white border-2 border-dashed border-hearth-200 rounded-xl cursor-pointer hover:border-hearth-400 hover:text-hearth-800 transition-colors text-hearth-500 text-sm font-medium">
+                                    <svg class="w-5 h-5 text-hearth-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    <span>{{ __('Choose Photos') }}</span>
+                                    <input type="file" name="images[]" accept="image/*" multiple class="hidden" @change="handleFiles($event)">
+                                </label>
+                                <span class="text-xs text-hearth-400" x-text="previews.length > 0 ? previews.length + ' {{ __('files selected') }}' : '{{ __('No files chosen') }}'"></span>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mt-3" x-show="previews.length > 0" x-transition style="display: none;">
+                                <template x-for="(src, index) in previews" :key="index">
+                                    <div class="relative w-10 h-10 rounded-lg overflow-hidden border border-hearth-200 bg-hearth-50 shadow-sm flex-shrink-0">
+                                        <img :src="src" class="w-full h-full object-cover">
+                                    </div>
+                                </template>
+                            </div>
+
+                            @error('images')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                            @error('images.*')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

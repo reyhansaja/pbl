@@ -11,6 +11,7 @@ class FavoriteController extends Controller
     public function index()
     {
         $favorites = auth()->user()->favoriteCafes()
+            ->where('is_approved', true)
             ->with(['photos', 'reviews'])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
@@ -24,6 +25,11 @@ class FavoriteController extends Controller
         $request->validate([
             'cafe_id' => 'required|exists:cafes,id',
         ]);
+
+        $cafe = Cafe::findOrFail($request->cafe_id);
+        if (!$cafe->is_approved) {
+            abort(403, 'This cafe is not approved yet.');
+        }
 
         $favorite = Favorite::where('user_id', auth()->id())
             ->where('cafe_id', $request->cafe_id)

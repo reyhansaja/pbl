@@ -68,10 +68,26 @@
                 @foreach($recentCafes as $cafe)
                     <div class="card p-4 flex items-center justify-between">
                         <div>
-                            <h3 class="font-semibold text-hearth-800">{{ $cafe->name }}</h3>
+                            <div class="flex items-center gap-2 mb-1">
+                                <h3 class="font-semibold text-hearth-800">{{ $cafe->name }}</h3>
+                                @if(!$cafe->is_approved)
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800">
+                                        {{ __('Pending') }}
+                                    </span>
+                                @endif
+                            </div>
                             <p class="text-xs text-hearth-400">by {{ $cafe->owner->name }} · {{ number_format($cafe->reviews_avg_rating ?? 0, 1) }}★ · {{ $cafe->reviews_count }} {{ __('reviews') }}</p>
                         </div>
-                        <a href="{{ route('cafe.show', $cafe->slug) }}" class="text-sm text-hearth-500 hover:text-hearth-800">{{ __('View') }}</a>
+                        <div class="flex items-center gap-3">
+                            @if(!$cafe->is_approved)
+                                <form method="POST" action="{{ route('admin.cafes.approve', $cafe) }}" class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="text-xs text-emerald-600 hover:text-emerald-800 font-semibold">{{ __('Approve') }}</button>
+                                </form>
+                            @endif
+                            <a href="{{ route('cafe.show', $cafe->slug) }}" class="text-sm text-hearth-500 hover:text-hearth-800">{{ __('View') }}</a>
+                        </div>
                     </div>
                 @endforeach
             </div>

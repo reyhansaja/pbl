@@ -64,6 +64,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cafes', [AdminController::class, 'cafes'])->name('cafes');
     Route::delete('/cafes/{cafe}', [AdminController::class, 'deleteCafe'])->name('cafes.delete');
+    Route::patch('/cafes/{cafe}/approve', [AdminController::class, 'approveCafe'])->name('cafes.approve');
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
 });

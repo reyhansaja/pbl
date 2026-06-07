@@ -24,6 +24,7 @@
                         <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Rating') }}</th>
                         <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Reviews') }}</th>
                         <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Favorites') }}</th>
+                        <th class="text-center py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Status') }}</th>
                         <th class="text-right py-3 px-4 text-xs font-semibold text-hearth-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -40,8 +41,26 @@
                             </td>
                             <td class="py-3 px-4 text-center text-sm text-hearth-600">{{ $cafe->reviews_count }}</td>
                             <td class="py-3 px-4 text-center text-sm text-hearth-600">{{ $cafe->favorites_count }}</td>
+                            <td class="py-3 px-4 text-center">
+                                @if($cafe->is_approved)
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                        {{ __('Approved') }}
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                        {{ __('Pending') }}
+                                    </span>
+                                @endif
+                            </td>
                             <td class="py-3 px-4 text-right">
-                                <div class="flex items-center justify-end gap-2">
+                                <div class="flex items-center justify-end gap-3">
+                                    @if(!$cafe->is_approved)
+                                        <form method="POST" action="{{ route('admin.cafes.approve', $cafe) }}" class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-sm text-emerald-600 hover:text-emerald-800 font-medium">{{ __('Approve') }}</button>
+                                        </form>
+                                    @endif
                                     <a href="{{ route('cafe.show', $cafe->slug) }}" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">{{ __('View') }}</a>
                                     <form method="POST" action="{{ route('admin.cafes.delete', $cafe) }}" onsubmit="return confirm('{{ __('Delete this cafe?') }}')">
                                         @csrf

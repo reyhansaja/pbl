@@ -10,7 +10,8 @@ class CafeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Cafe::with(['photos', 'reviews'])
+        $query = Cafe::where('is_approved', true)
+            ->with(['photos', 'reviews'])
             ->withAvg('reviews', 'rating')
             ->withCount(['reviews', 'favorites']);
 
@@ -39,8 +40,8 @@ class CafeController extends Controller
                         $lat = (float) $request->latitude;
                         $lng = (float) $request->longitude;
 
-                        // Haversine formula to calculate distance in kilometers (6371 is the radius of the Earth in km)
-                        $query->selectRaw("cafes.*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$lat, $lng, $lat])
+                        $query->selectRaw("(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance", [$lat, $lng, $lat])
+                              ->having('distance', '<=', 30)
                               ->orderBy('distance');
                     } else {
                         $query->orderByDesc('reviews_avg_rating');
@@ -72,6 +73,12 @@ class CafeController extends Controller
             ->withAvg('reviews', 'rating')
             ->withCount(['reviews', 'favorites'])
             ->firstOrFail();
+
+        if (!$cafe->is_approved) {
+            if (!auth()->check() || (!auth()->user()->isAdmin() && auth()->id() !== $cafe->user_id)) {
+                abort(404);
+            }
+        }
 
         $isFavorited = false;
         $userReview = null;

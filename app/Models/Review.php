@@ -14,6 +14,11 @@ class Review extends Model
         'cafe_id',
         'rating',
         'comment',
+        'images',
+    ];
+
+    protected $casts = [
+        'images' => 'array',
     ];
 
     public function user()

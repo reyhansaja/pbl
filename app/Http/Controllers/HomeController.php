@@ -9,14 +9,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $popularCafes = Cafe::with(['photos', 'reviews'])
+        $popularCafes = Cafe::where('is_approved', true)
+            ->with(['photos', 'reviews'])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->orderByDesc('reviews_avg_rating')
             ->take(8)
             ->get();
 
-        $latestCafes = Cafe::with(['photos', 'reviews'])
+        $latestCafes = Cafe::where('is_approved', true)
+            ->with(['photos', 'reviews'])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->latest()

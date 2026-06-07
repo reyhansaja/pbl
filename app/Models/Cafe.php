@@ -22,6 +22,11 @@ class Cafe extends Model
         'maps_embed',
         'latitude',
         'longitude',
+        'is_approved',
+    ];
+
+    protected $casts = [
+        'is_approved' => 'boolean',
     ];
 
     protected static function boot()

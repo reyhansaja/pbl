@@ -46,6 +46,13 @@ class AdminController extends Controller
         return back()->with('success', 'Cafe deleted successfully.');
     }
 
+    public function approveCafe(Cafe $cafe)
+    {
+        $cafe->update(['is_approved' => true]);
+
+        return back()->with('success', 'Cafe approved successfully.');
+    }
+
     public function users()
     {
         $users = User::withCount(['reviews', 'favorites'])
