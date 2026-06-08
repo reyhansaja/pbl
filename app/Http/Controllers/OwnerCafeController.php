@@ -32,7 +32,7 @@ class OwnerCafeController extends Controller
     {
         if (auth()->user()->cafe) {
             return redirect()->route('owner.dashboard')
-                ->with('warning', 'You have already registered a cafe.');
+                ->with('warning', __('You have already registered a cafe.'));
         }
 
         return view('owner.cafe-create');
@@ -42,7 +42,7 @@ class OwnerCafeController extends Controller
     {
         if (auth()->user()->cafe) {
             return redirect()->route('owner.dashboard')
-                ->with('warning', 'You have already registered a cafe.');
+                ->with('warning', __('You have already registered a cafe.'));
         }
 
         $request->validate([
@@ -94,7 +94,7 @@ class OwnerCafeController extends Controller
         }
 
         return redirect()->route('owner.dashboard')
-            ->with('success', 'Cafe registered successfully!');
+            ->with('success', __('Cafe registered successfully!'));
     }
 
     public function edit()
@@ -184,6 +184,6 @@ class OwnerCafeController extends Controller
         }
 
         return redirect()->route('owner.dashboard')
-            ->with('success', 'Cafe updated successfully!');
+            ->with('success', __('Cafe updated successfully!'));
     }
 }
