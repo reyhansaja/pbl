@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Owner Dashboard')
+@section('title', __('Owner Dashboard'))
 
 @section('content')
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
     {{-- Header --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
-            <p class="text-hearth-500 text-sm font-semibold uppercase tracking-wider mb-2">Owner Dashboard</p>
+            <p class="text-hearth-500 text-sm font-semibold uppercase tracking-wider mb-2">{{ __('Owner Dashboard') }}</p>
             <h1 class="font-serif text-3xl font-bold text-hearth-800">{{ $cafe->name }}</h1>
         </div>
         <div class="flex gap-3">
-            <a href="{{ route('cafe.show', $cafe->slug) }}" class="btn-secondary btn-sm">View Public Page</a>
-            <a href="{{ route('owner.cafe.edit') }}" class="btn-primary btn-sm">Edit Cafe</a>
+            <a href="{{ route('cafe.show', $cafe->slug) }}" class="btn-secondary btn-sm">{{ __('View Public Page') }}</a>
+            <a href="{{ route('owner.cafe.edit') }}" class="btn-primary btn-sm">{{ __('Edit Cafe') }}</a>
         </div>
     </div>
 
@@ -40,27 +40,27 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
         <div class="card p-5 text-center">
             <div class="text-3xl font-bold text-hearth-800">{{ number_format($cafe->reviews_avg_rating ?? 0, 1) }}</div>
-            <p class="text-sm text-hearth-400 mt-1">Avg Rating</p>
+            <p class="text-sm text-hearth-400 mt-1">{{ __('Avg Rating') }}</p>
         </div>
         <div class="card p-5 text-center">
             <div class="text-3xl font-bold text-hearth-800">{{ $cafe->reviews_count }}</div>
-            <p class="text-sm text-hearth-400 mt-1">Reviews</p>
+            <p class="text-sm text-hearth-400 mt-1">{{ __('Reviews') }}</p>
         </div>
         <div class="card p-5 text-center">
             <div class="text-3xl font-bold text-hearth-800">{{ $cafe->favorites_count }}</div>
-            <p class="text-sm text-hearth-400 mt-1">Favorites</p>
+            <p class="text-sm text-hearth-400 mt-1">{{ __('Favorites') }}</p>
         </div>
         <div class="card p-5 text-center">
             <div class="text-3xl font-bold {{ $cafe->isOpenNow() ? 'text-emerald-600' : 'text-red-500' }}">
-                {{ $cafe->isOpenNow() ? 'Open' : 'Closed' }}
+                {{ $cafe->isOpenNow() ? __('Open') : __('Closed') }}
             </div>
-            <p class="text-sm text-hearth-400 mt-1">Status</p>
+            <p class="text-sm text-hearth-400 mt-1">{{ __('Status') }}</p>
         </div>
     </div>
 
     {{-- Recent Reviews --}}
     <div>
-        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-6">Recent Reviews</h2>
+        <h2 class="font-serif text-2xl font-bold text-hearth-800 mb-6">{{ __('Recent Reviews') }}</h2>
 
         @if($recentReviews->count() > 0)
             <div class="space-y-4">
@@ -122,17 +122,17 @@
 
                                 @if($review->reply)
                                     <div class="bg-hearth-50 rounded-lg p-3 border-l-4 border-hearth-500">
-                                        <p class="text-sm text-hearth-600"><span class="font-semibold">Your reply:</span> {{ $review->reply->reply }}</p>
+                                        <p class="text-sm text-hearth-600"><span class="font-semibold">{{ __('Your reply:') }}</span> {{ $review->reply->reply }}</p>
                                     </div>
                                 @else
                                     <div x-data="{ showReply: false }">
-                                        <button @click="showReply = !showReply" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">Reply</button>
+                                        <button @click="showReply = !showReply" class="text-sm text-hearth-500 hover:text-hearth-800 font-medium">{{ __('Reply') }}</button>
                                         <form x-show="showReply" x-transition method="POST" action="{{ route('owner.reviews.reply', $review) }}" class="mt-2">
                                             @csrf
-                                            <textarea name="reply" rows="2" class="input-field text-sm" placeholder="Write your reply..." required></textarea>
+                                            <textarea name="reply" rows="2" class="input-field text-sm" placeholder="{{ __('Write your reply...') }}" required></textarea>
                                             <div class="flex justify-end gap-2 mt-2">
-                                                <button type="button" @click="showReply = false" class="text-sm text-hearth-400">Cancel</button>
-                                                <button type="submit" class="btn-primary btn-sm text-sm">Reply</button>
+                                                <button type="button" @click="showReply = false" class="text-sm text-hearth-400">{{ __('Cancel') }}</button>
+                                                <button type="submit" class="btn-primary btn-sm text-sm">{{ __('Reply') }}</button>
                                             </div>
                                         </form>
                                     </div>
@@ -144,7 +144,7 @@
             </div>
         @else
             <div class="card p-8 text-center">
-                <p class="text-hearth-400">No reviews yet. Share your cafe link to get started!</p>
+                <p class="text-hearth-400">{{ __('No reviews yet. Share your cafe link to get started!') }}</p>
             </div>
         @endif
     </div>

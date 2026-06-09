@@ -154,7 +154,7 @@
                         }) as $schedule)
                             <div class="flex items-center justify-between py-1.5 {{ strtolower(now()->format('l')) === $schedule->day ? 'bg-hearth-50 -mx-3 px-3 rounded-lg font-semibold' : '' }}">
                                 <span class="text-sm capitalize {{ strtolower(now()->format('l')) === $schedule->day ? 'text-hearth-800' : 'text-hearth-400' }}">
-                                    {{ ucfirst($schedule->day) }}
+                                    {{ __($schedule->day) }}
                                 </span>
                                 <span class="text-sm {{ $schedule->is_closed ? 'text-red-500' : (strtolower(now()->format('l')) === $schedule->day ? 'text-hearth-800' : 'text-hearth-600') }}">
                                     {{ $schedule->formatted_time }}

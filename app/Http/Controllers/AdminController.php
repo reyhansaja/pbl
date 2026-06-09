@@ -43,14 +43,14 @@ class AdminController extends Controller
     {
         $cafe->delete();
 
-        return back()->with('success', 'Cafe deleted successfully.');
+        return back()->with('success', __('Cafe deleted successfully.'));
     }
 
     public function approveCafe(Cafe $cafe)
     {
         $cafe->update(['is_approved' => true]);
 
-        return back()->with('success', 'Cafe approved successfully.');
+        return back()->with('success', __('Cafe approved successfully.'));
     }
 
     public function users()
@@ -64,11 +64,11 @@ class AdminController extends Controller
     public function deleteUser(User $user)
     {
         if ($user->isAdmin()) {
-            return back()->with('error', 'Cannot delete admin user.');
+            return back()->with('error', __('Cannot delete admin user.'));
         }
 
         $user->delete();
 
-        return back()->with('success', 'User deleted successfully.');
+        return back()->with('success', __('User deleted successfully.'));
     }
 }
