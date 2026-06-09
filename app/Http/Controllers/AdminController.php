@@ -41,6 +41,16 @@ class AdminController extends Controller
 
     public function deleteCafe(Cafe $cafe)
     {
+        // notify owner before deletion
+        try {
+            if ($cafe->owner && $cafe->owner->email) {
+                \Illuminate\Support\Facades\Mail::to($cafe->owner->email)
+                    ->send(new \App\Mail\CafeDeleted($cafe->name));
+            }
+        } catch (\Exception $e) {
+            report($e);
+        }
+
         $cafe->delete();
 
         return back()->with('success', __('Cafe deleted successfully.'));
@@ -49,6 +59,17 @@ class AdminController extends Controller
     public function approveCafe(Cafe $cafe)
     {
         $cafe->update(['is_approved' => true]);
+
+        // Send notification email to cafe owner if available
+        try {
+            if ($cafe->owner && $cafe->owner->email) {
+                \Illuminate\Support\Facades\Mail::to($cafe->owner->email)
+                    ->send(new \App\Mail\CafeApproved($cafe));
+            }
+        } catch (\Exception $e) {
+            // swallow email errors but log them
+            report($e);
+        }
 
         return back()->with('success', __('Cafe approved successfully.'));
     }
