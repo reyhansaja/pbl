@@ -112,7 +112,7 @@
                             </div>
                         </div>
                         <span class="badge {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-800' : ($user->role === 'owner' ? 'bg-blue-100 text-blue-800' : 'bg-hearth-100 text-hearth-600') }}">
-                            {{ ucfirst($user->role) }}
+                            {{ __(ucfirst($user->role)) }}
                         </span>
                     </div>
                 @endforeach
