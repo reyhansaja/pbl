@@ -440,9 +440,21 @@
 
 <style>
     /* Styling to blend Leaflet perfectly with Hearth styles */
+    /* Make sure Leaflet stays under the sticky navbar */
     .leaflet-container {
         font-family: 'Inter', sans-serif !important;
         background: #FAF6F1 !important;
+        z-index: 10 !important; /* lower than navbar z-40 */
+    }
+
+    /* Leaflet controls/popups should also sit below the navbar */
+    .leaflet-control,
+    .leaflet-control-container,
+    .leaflet-popup,
+    .leaflet-popup-pane,
+    .leaflet-shadow-pane,
+    .leaflet-marker-pane {
+        z-index: 20 !important; /* below navbar (z-40) but above map tiles */
     }
     
     .leaflet-popup-content-wrapper {
