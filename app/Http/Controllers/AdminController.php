@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cafe;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class AdminController extends Controller
             'total_cafes' => Cafe::count(),
             'total_users' => User::where('role', 'user')->count(),
             'total_owners' => User::where('role', 'owner')->count(),
-            'total_reviews' => \App\Models\Review::count(),
+            'total_reviews' => Review::count(),
+            'total_reported_reviews' => Review::where('is_reported', true)->count(),
         ];
 
         $recentCafes = Cafe::with('owner')
@@ -80,6 +82,16 @@ class AdminController extends Controller
             ->paginate(15);
 
         return view('admin.users', compact('users'));
+    }
+
+    public function reportedReviews()
+    {
+        $reviews = Review::with(['user', 'cafe'])
+            ->where('is_reported', true)
+            ->orderByDesc('reported_at')
+            ->paginate(15);
+
+        return view('admin.reported-reviews', compact('reviews'));
     }
 
     public function deleteUser(User $user)

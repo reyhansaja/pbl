@@ -44,6 +44,20 @@ class ReviewController extends Controller
         return back()->with('success', 'Review posted successfully!');
     }
 
+    public function report(Review $review)
+    {
+        if ($review->user_id === auth()->id()) {
+            abort(403, 'You cannot report your own review.');
+        }
+
+        $review->increment('report_count', 1, [
+            'is_reported' => true,
+            'reported_at' => now(),
+        ]);
+
+        return back()->with('success', 'Review reported successfully.');
+    }
+
     public function destroy(Review $review)
     {
         if ($review->user_id !== auth()->id() && !auth()->user()->isAdmin()) {

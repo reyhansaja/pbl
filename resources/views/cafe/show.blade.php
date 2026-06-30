@@ -181,7 +181,12 @@
                         </div>
                         <div class="flex-1">
                             <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-semibold text-hearth-800">{{ $review->user->name }}</h4>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-semibold text-hearth-800">{{ $review->user->name }}</h4>
+                                    @if($review->is_reported)
+                                        <span class="inline-flex items-center px-2 py-0.5 text-[11px] font-medium bg-red-100 text-red-700 rounded-full">{{ __('Reported') }}</span>
+                                    @endif
+                                </div>
                                 <span class="text-xs text-hearth-400">{{ $review->created_at->diffForHumans() }}</span>
                             </div>
                             <div class="flex items-center gap-0.5 mb-3">
@@ -237,6 +242,15 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium">{{ __('Delete review') }}</button>
+                                    </form>
+                                @endif
+                            @endauth
+
+                            @auth
+                                @if(auth()->id() !== $review->user_id)
+                                    <form method="POST" action="{{ route('reviews.report', $review) }}" class="mt-3">
+                                        @csrf
+                                        <button type="submit" class="text-xs text-yellow-600 hover:text-yellow-800 font-medium">{{ __('Report review') }}</button>
                                     </form>
                                 @endif
                             @endauth

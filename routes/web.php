@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
     // Reviews (any authenticated user)
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('/reviews/{review}/report', [ReviewController::class, 'report'])->name('reviews.report');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
     // Favorites (any authenticated user)
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'role:owner'])->prefix('owner')->name('owner.')->grou
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cafes', [AdminController::class, 'cafes'])->name('cafes');
+    Route::get('/reported-reviews', [AdminController::class, 'reportedReviews'])->name('reported.reviews');
     Route::delete('/cafes/{cafe}', [AdminController::class, 'deleteCafe'])->name('cafes.delete');
     Route::patch('/cafes/{cafe}/approve', [AdminController::class, 'approveCafe'])->name('cafes.approve');
     Route::get('/users', [AdminController::class, 'users'])->name('users');

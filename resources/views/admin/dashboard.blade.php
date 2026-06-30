@@ -4,9 +4,12 @@
 
 @section('content')
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-    <div class="mb-8">
-        <p class="text-hearth-500 text-sm font-semibold uppercase tracking-wider mb-2">{{ __('Administration') }}</p>
-        <h1 class="font-serif text-3xl font-bold text-hearth-800">{{ __('Dashboard') }}</h1>
+    <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <p class="text-hearth-500 text-sm font-semibold uppercase tracking-wider mb-2">{{ __('Administration') }}</p>
+            <h1 class="font-serif text-3xl font-bold text-hearth-800">{{ __('Dashboard') }}</h1>
+        </div>
+        <a href="{{ route('admin.reported.reviews') }}" class="btn-sm bg-amber-50 text-amber-700 hover:bg-amber-100">{{ __('Reported Reviews') }}</a>
     </div>
 
     {{-- Stats --}}
@@ -52,6 +55,7 @@
                 <div>
                     <div class="text-2xl font-bold text-hearth-800">{{ $stats['total_reviews'] }}</div>
                     <p class="text-xs text-hearth-400">{{ __('Reviews') }}</p>
+                    <p class="text-xs text-hearth-400 mt-1">{{ $stats['total_reported_reviews'] }} {{ __('reported') }}</p>
                 </div>
             </div>
         </div>

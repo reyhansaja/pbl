@@ -15,10 +15,16 @@ class Review extends Model
         'rating',
         'comment',
         'images',
+        'is_reported',
+        'report_count',
+        'reported_at',
     ];
 
     protected $casts = [
         'images' => 'array',
+        'is_reported' => 'boolean',
+        'report_count' => 'integer',
+        'reported_at' => 'datetime',
     ];
 
     public function user()
